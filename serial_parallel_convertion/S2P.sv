@@ -6,10 +6,10 @@ module S2P
 input                  clk,
 input                  rst,
 
-input                  serial_din,
+input                  s2p_din,
 input                  s2p_start,
 
-output reg  [DW-1 : 0] parallel_dout,
+output reg  [DW-1 : 0] s2p_dout,
 output reg             s2p_done
 );
 
@@ -39,11 +39,11 @@ always @ (posedge clk or posedge rst) begin
 				if (cnt == DW - 1'b1) begin
 					s2p_done      <= 1'b1;
 					s2p_state     <= S2P_IDLE;
-					parallel_dout <= s2p_reg;
+					s2p_dout      <= s2p_reg;
 				end 
 				else begin
 					cnt      <=  cnt + 1'b1;
-					s2p_reg  <=  {s2p_reg[DW-2:0], serial_din};
+					s2p_reg  <=  {s2p_reg[DW-2:0], s2p_din};
 				end 
 			end 
 		endcase 
